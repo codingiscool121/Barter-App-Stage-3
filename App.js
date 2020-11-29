@@ -1,50 +1,59 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
-import { createAppContainer, createSwitchNavigator} from 'react-navigation';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import WelcomeScreen from './screens/WelcomeScreen';
-import HomeScreen from './screens/HomeScreen'
-import Exchange from './screens/Exchange';
-
-export default function App() {
-  return (
-    <AppContainer/>
-  );
+import Exchange from './screens/ExchangeScreen';
+import Welcome from './screens/Welcome';
+import Home from './screens/Home';
+export default class App extends React.Component {
+  render(){
+    return(
+      <View style={styles.container}>
+      <AppContainer />
+    </View>
+    )
+  }
 }
 
-const TabNavigator = createBottomTabNavigator({
-    HomeScreen: {screen: HomeScreen},
-    Exchange: {screen: Exchange},
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+
+const BottomTab = createBottomTabNavigator(
+  {
+    Home: {screen:Home},
+    Exchange: {screen:Exchange}
   },
   {
     defaultNavigationOptions: ({navigation})=>({
-      tabBarIcon: ()=>{
+      tabBarIcon:()=>{
         const routeName = navigation.state.routeName;
-        if(routeName === "HomeScreen"){
+        if(routeName==="Home"){
           return(
             <Image
-            source={require("./assets/home-icon.png")}
-            style={{width:20, height:20}}
-          />
+            source={require('./assets/tradingicon.gif')}
+            style={{width:40,height:40}}
+            />
           )
-
-        }
-        else if(routeName === "Exchange"){
+        }else if(routeName==="Exchange"){
           return(
             <Image
-            source={require("./assets/ads-icon.png")}
-            style={{width:20, height:20,}}
-          />)
-
+            source={require('./assets/homeicon.png')}
+            />
+          )
         }
       }
     })
   }
-);
+)
 
 const switchNavigator = createSwitchNavigator({
-  WelcomeScreen:{screen: WelcomeScreen},
-  BottomTab:{screen: TabNavigator}
+  Welcome:{screen:Welcome},
+  BottomTab:{screen:BottomTab}
 })
-
-const AppContainer =  createAppContainer(switchNavigator);
+const AppContainer = createAppContainer(switchNavigator);
